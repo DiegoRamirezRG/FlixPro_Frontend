@@ -1,5 +1,6 @@
 @import './config/sass/theme.config.scss';
 @import './config/sass/fonts.config.scss';
+@import './config/sass/responsive.config';
 
 *{
     padding: 0px;
@@ -12,4 +13,17 @@ body{
     overflow-x: hidden;
     box-sizing: border-box;
     background-color: $background_dark;
+}
+
+.maxContainer{
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @include xs {
+        height: 90vh;
+    }
 }

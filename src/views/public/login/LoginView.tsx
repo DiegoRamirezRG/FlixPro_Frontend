@@ -2,8 +2,49 @@ import { IoAt } from 'react-icons/io5';
 import { InputTextComp } from '../../../components/inputTextComp/InputTextComp';
 import './LoginStyle.scss';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+import { useAuthContext } from '../../../contexts/auth/AuthContext';
+import { FormEvent, useState } from 'react';
+import { EmailRegex } from '../../../utils/constant/RegexCostants';
+import { showErrorTost } from '../../../components/toastComp/ToastComp';
 
 export const LoginView = () => {
+
+    const { getAuthorized } = useAuthContext();
+    const [loginViewLoading, setLoginViewLoading] = useState(true);
+
+    const [loginFormState, setLoginFormState] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleInputChange = (name: string, value: string) => {
+        setLoginFormState((prevState) => ({
+            ...prevState,
+            [name] : value
+        }));
+    }
+
+    const loginSubmit = async (e: FormEvent) => {
+        try {
+            e.preventDefault();
+            setLoginViewLoading(true);
+
+            if(loginFormState.email == '' || !EmailRegex.test(loginFormState.email)){
+                showErrorTost('El correo es invalido, por favor coloque un correo valido.', 'top-right');
+                return;
+            }else if(loginFormState.password == ''){
+                showErrorTost('La contraseña no puede estar vacia.', 'top-right');
+                return;
+            }else{
+                await getAuthorized(loginFormState.email, loginFormState.password);
+            }
+        } catch (error: any) {
+            showErrorTost(error.message ? error.message : error, 'top-right');
+        } finally {
+            setLoginViewLoading(false);
+        }
+    }
+
     return (
         <div className='maxContainer'>
             <div className="login_card">
@@ -17,10 +58,12 @@ export const LoginView = () => {
                         <p className='form_switcher'>No Acount? No Biggie <a href="">Register here</a>.</p>
                     </article>
                     <article className='form_inputs'>
-                        <InputTextComp id='email'       label='Email'       name='email'    key='input_email'       placeholder='Email'     type='email'    iconBtn={ <IoAt /> }/>
-                        <InputTextComp id='password'    label='Password'    name='password' key='input_password'    placeholder='Password'  type='password' />
-                        <p className='forgot_password'><a href="">Forgot password?</a></p>
-                        <button type='button' className='form_btn'>Log in</button>
+                        <form onSubmit={loginSubmit}>
+                            <InputTextComp id='email'       label='Email'       name='email'    key='input_email'       placeholder='Email'     type='email'    onChangeFunc={handleInputChange}    value={loginFormState.email}    iconBtn={ <IoAt /> }/>
+                            <InputTextComp id='password'    label='Password'    name='password' key='input_password'    placeholder='Password'  type='password' onChangeFunc={handleInputChange}    value={loginFormState.password}  />
+                            <p className='forgot_password'><a href="">Forgot password?</a></p>
+                            <button type='submit' className='form_btn'>Log in</button>
+                        </form>
                     </article>
                     <article className='linked_sing_up'>
                         <p>Or Sign Up Using</p>

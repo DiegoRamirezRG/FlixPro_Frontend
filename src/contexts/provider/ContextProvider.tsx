@@ -1,13 +1,10 @@
-import { ReactNode } from 'react'
+import { ContextProviderInterface } from '../../interfaces/contextsInterfaces/ProviderInterfaces';
+import { AuthContextProvider } from '../auth/AuthContext';
 
-interface contextProviderInterface {
-    children: ReactNode;
-}
-
-export const ContextProvider = ({ children } : contextProviderInterface) => {
+export const ContextProvider = ({ children } : ContextProviderInterface) => {
     return (
-        <>
+        <AuthContextProvider>
             { children }
-        </>
+        </AuthContextProvider>
     )
 }

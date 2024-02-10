@@ -3,7 +3,7 @@ import { InputTextCompInterface } from './InputTextInterface';
 import './InputTextStyle.scss';
 import { useState } from 'react';
 
-export const InputTextComp = ({ id, name, label, placeholder, type, iconBtn } : InputTextCompInterface) => {
+export const InputTextComp = ({ id, name, label, placeholder, type, iconBtn, onChangeFunc, value } : InputTextCompInterface) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -11,7 +11,7 @@ export const InputTextComp = ({ id, name, label, placeholder, type, iconBtn } : 
     <div className='inputContainer'>
       <label>{label}</label>
       <section className='input_wrapper'>
-        <input type={type == 'password' ? showPassword ? 'text' : type : type} placeholder={placeholder}/>
+        <input type={type == 'password' ? showPassword ? 'text' : type : type} placeholder={placeholder} name={name} id={id} onChange={(e) => onChangeFunc(e.target.name, e.target.value)} value={value}/>
         { 
           type == 'password' 
             ? showPassword 

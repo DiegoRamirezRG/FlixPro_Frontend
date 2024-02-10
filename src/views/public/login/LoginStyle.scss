@@ -60,35 +60,42 @@
         flex-direction: column;
         gap: 20px;
 
-        .forgot_password{
-            font-size: 18px;
-            a{
-                color: $gold;
-                text-decoration: none;
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
 
-                &:hover{
-                    color: darken($gold, 15%);
+            .forgot_password{
+                font-size: 18px;
+                a{
+                    color: $gold;
+                    text-decoration: none;
+    
+                    &:hover{
+                        color: darken($gold, 15%);
+                    }
                 }
             }
-        }
-
-        .form_btn{
-            width: fit-content;
-            padding: 10px 20px;
-            font-size: 20px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            font-weight: bold;
-            color: white;
-            width: 50%;
-            background-color: $viridian;
-            transition: 0.2s all ease-in-out;
-            margin-bottom: 20px;
-
-            &:hover{
-                cursor: pointer;
-                background-color: darken($viridian, 15%);
+    
+            .form_btn{
+                width: fit-content;
+                padding: 10px 20px;
+                font-size: 20px;
+                border-radius: 10px;
+                border: none;
+                outline: none;
+                font-weight: bold;
+                color: white;
+                width: 50%;
+                background-color: $viridian;
+                transition: 0.2s all ease-in-out;
+                margin-bottom: 20px;
+    
+                &:hover{
+                    cursor: pointer;
+                    background-color: darken($viridian, 15%);
+                }
             }
         }
     }

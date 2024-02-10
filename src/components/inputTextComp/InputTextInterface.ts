@@ -7,4 +7,6 @@ export interface InputTextCompInterface {
     placeholder: string;
     iconBtn?: JSX.Element;
     type: HTMLInputTypeAttribute;
+    onChangeFunc: (name: string, value: string) => void;
+    value: any;
 }

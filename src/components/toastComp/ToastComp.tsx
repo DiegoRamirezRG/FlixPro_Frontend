@@ -10,7 +10,7 @@ export const showSuccessToast = (text: string, position: ToastPosition) => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light", // You can customize the theme for success toasts
+        theme: "dark",
     });
 };
 

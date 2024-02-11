@@ -3,14 +3,37 @@ import { InputTextComp } from '../../../components/inputTextComp/InputTextComp';
 import './LoginStyle.scss';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa';
 import { useAuthContext } from '../../../contexts/auth/AuthContext';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { EmailRegex } from '../../../utils/constant/RegexCostants';
 import { showErrorTost } from '../../../components/toastComp/ToastComp';
+import { LoadingComp } from '../../../components/loadingComp/LoadingComp';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginView = () => {
 
-    const { getAuthorized } = useAuthContext();
+    const { getAuthorized, getTokensAuthorized, loggedUser, getReAuthByRefreshToken } = useAuthContext();
     const [loginViewLoading, setLoginViewLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const awaitFunc = async () => {
+            try {
+                await getTokensAuthorized();
+            } catch (error) {
+                await getReAuthByRefreshToken();
+            } finally {
+                setLoginViewLoading(false);
+            }
+        }
+        
+        awaitFunc();
+    }, []);
+
+    useEffect(() => {
+        if(loggedUser != null){
+            navigate('/mainboard');
+        }
+    }, [loggedUser]);
 
     const [loginFormState, setLoginFormState] = useState({
         email: '',
@@ -37,6 +60,7 @@ export const LoginView = () => {
                 return;
             }else{
                 await getAuthorized(loginFormState.email, loginFormState.password);
+                await getTokensAuthorized();
             }
         } catch (error: any) {
             showErrorTost(error.message ? error.message : error, 'top-right');
@@ -78,6 +102,14 @@ export const LoginView = () => {
                 <div className="banner_overlay"></div>
                 <img src="/src/assets/svg/Logo_White.svg" alt="image_decor" className='login_decor'/>
             </div>
+            {
+                loginViewLoading && 
+                <div className='loading-overlay'>
+                    <section className="loadingContainer">
+                        <LoadingComp/>
+                    </section>
+                </div>
+            }
         </div>
     )
 }

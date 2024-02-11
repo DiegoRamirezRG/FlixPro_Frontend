@@ -22,6 +22,7 @@ body{
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
 
     @include xs {
         height: 90vh;

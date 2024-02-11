@@ -1,7 +1,8 @@
+import { MainboardView } from "../../views/private/mainboard/MainboardView";
 
 export const generalPrivateRoutes = [
     {
-        path: "/",
-        element: <div></div>,
+        path: "/mainboard",
+        element: <MainboardView/>,
     },
 ];

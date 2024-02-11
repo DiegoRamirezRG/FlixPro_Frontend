@@ -1,4 +1,9 @@
-import { AuthTokens } from "../authInterfaces/AuthContextInterfaces";
+import { AuthTokens, ReAuthRefresh } from "../authInterfaces/AuthContextInterfaces";
+import { UserInterface } from "../userInterfaces/UserInterface";
 
 export type ApiDataBody = 
-    AuthTokens;
+        AuthTokens
+    |   UserInterface
+    |   ReAuthRefresh
+    |   string
+    |   any;

@@ -20,7 +20,11 @@ export const LoginView = () => {
             try {
                 await getTokensAuthorized();
             } catch (error) {
-                await getReAuthByRefreshToken();
+                try {
+                    await getReAuthByRefreshToken();
+                } catch (error_b: any) {
+                    showErrorTost(error_b.message, 'top-right');
+                }
             } finally {
                 setLoginViewLoading(false);
             }

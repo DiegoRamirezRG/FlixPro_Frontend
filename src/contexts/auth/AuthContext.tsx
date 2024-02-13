@@ -3,7 +3,6 @@ import { AuthContextInterface } from "../../interfaces/authInterfaces/AuthContex
 import { ContextProviderInterface } from "../../interfaces/contextsInterfaces/ProviderInterfaces";
 import { apiServiceProvider } from '../../config/api/ApiRestConfig';
 import { ApiResponse } from "../../interfaces/apiInterfaces/ApiResponseInterface";
-import { showErrorTost, showSuccessToast } from "../../components/toastComp/ToastComp";
 import Cookies from 'js-cookie';
 import { UserInterface } from "../../interfaces/userInterfaces/UserInterface";
 
@@ -26,11 +25,9 @@ export const AuthContextProvider = ({ children } : ContextProviderInterface) => 
             }else{
                 Cookies.set('refresh_token', response.data.data?.refresh_token!, { expires: 30 });
                 localStorage.setItem('access_token', response.data.data?.access_token!);
-
-                showSuccessToast(response.data.message, 'top-right');
             }
         } catch (error: any) {
-            showErrorTost(error.response.data.message ? error.response.data.message : error.message, 'top-right');
+            console.error(error);
         }
     }
 
@@ -52,7 +49,7 @@ export const AuthContextProvider = ({ children } : ContextProviderInterface) => 
                 }
             } catch (error: any) {
                 localStorage.clear();
-                showErrorTost(error.response.data.message ? error.response.data.message : error.message, 'top-right');
+                console.error(error);
                 reject(error);
             }
         })
@@ -75,6 +72,7 @@ export const AuthContextProvider = ({ children } : ContextProviderInterface) => 
                 resolve(true);
             } catch (error) {
                 Cookies.remove('refresh_token');
+                console.error(error);
                 reject(error);
             }
         })

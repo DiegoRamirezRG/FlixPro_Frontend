@@ -1,0 +1,169 @@
+@import '../../config/sass/theme.config';
+@import '../../config/sass/responsive.config';
+
+.steper_container{
+    width: 50%;
+    height: auto;
+    background-color: $background_light;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    header{
+        width: 100%;
+
+        h3 {
+            font-weight: 500;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .steps_roadmap{
+            width: 100%;
+            display: flex;
+            height: auto;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            
+
+            .steper_bar_indicator{
+                width: 75%;
+                height: 5px;
+                background-color: $secondary;
+                position: absolute;
+                z-index: 0;
+            }
+
+            .step_bubble{
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1;
+
+                .bubble_active{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    box-sizing: border-box;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: 0.15s all ease-in-out;
+
+                    &.active{
+                        background-color: $background_light;
+                        border: 5px solid $info;
+
+                        .bubble_inner{
+                            background-color: $info;
+
+                            .bubble_icon{
+                                color: white;
+                            }
+                        }
+                    }
+
+                    &.inactive{
+                        background-color: transparent;
+                        border: 5px solid transparent;
+
+                        .bubble_inner{
+                            background-color: $secondary;
+                        }
+
+                        &:hover{
+                            border: 5px solid $secondary;
+                            background-color: $background_light;
+                        }
+                    }
+
+                    &.finished{
+                        background-color: transparent;
+                        border: 5px solid transparent;
+
+                        .bubble_inner{
+                            background-color: $success;
+                        }
+
+                        &:hover{
+                            border: 5px solid $success;
+                            background-color: $background_light;
+                        }
+                    }
+
+                    &.error{
+                        background-color: transparent;
+                        border: 5px solid transparent;
+
+                        .bubble_inner{
+                            background-color: $danger;
+                        }
+
+                        &:hover{
+                            border: 5px solid $danger;
+                            background-color: $background_light;
+                        }
+                    }
+
+                    &:hover{
+                        cursor: pointer;
+                    }
+
+                    .bubble_inner{
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+
+                        .bubble_icon{
+                            font-size: 25px;
+                            color: black;
+                        }
+
+                        .bubble_floating_title{
+                            position: absolute;
+                            bottom: -60%;
+                            font-weight: 500;
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .step_active_render{
+            width: 100%;
+            margin-top: 50px;
+            height: 50vh;
+            display: flex;
+        }
+
+        .steper_footer{
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+            padding: 10px 0px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    }
+    
+}

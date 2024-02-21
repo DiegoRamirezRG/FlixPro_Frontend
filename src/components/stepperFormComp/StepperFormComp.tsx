@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './StepperFormStyle.scss'
 import { AiFillApi, AiOutlineCheck } from 'react-icons/ai';
-import { RiListSettingsFill } from 'react-icons/ri';
+import { RiErrorWarningLine, RiListSettingsFill } from 'react-icons/ri';
 import { LuGoal } from 'react-icons/lu';
 import { stepItem } from '../../interfaces/stepperInterfaces/StepperInterfaces';
 import { CinemaGlobalConfig, InitConfigFinished, StartInitConfig, TMDBApiConfig } from './innerStepsComp/InnerStepsComp';
@@ -12,9 +12,10 @@ import { showErrorTost } from '../toastComp/ToastComp';
 export const StepperFormComp = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
     const { initConfigValues } = useConfigWizardContext();
+    const [innerLoading, setInnerLoading] = useState(false);
 
     const stepsObjOptRender: stepItem[] = [
-        { icon: <LuGoal className='bubble_icon'/>, title: 'Comencemos' },
+        { icon: <LuGoal className='bubble_icon'/>, title: 'Inicio' },
         { icon: <RiListSettingsFill className='bubble_icon'/>, title: 'Cinema' },
         { icon: <AiFillApi className='bubble_icon'/>, title: 'TMDB' },
         { icon: <AiOutlineCheck className='bubble_icon'/>, title: 'Finalizado' },
@@ -38,12 +39,14 @@ export const StepperFormComp = () => {
                     setActiveStep(activeStep + 1);
                     break;
                 case 2:
+                    setInnerLoading(true);
                     await ValidateTMDBApiCredentials(initConfigValues.tmdb_access_token, initConfigValues.tmdb_api_key);
+                    setInnerLoading(false);
                     setActiveStep(activeStep + 1);
                     break;
             }
         } catch (error: any) {
-            showErrorTost(error, 'bottom-center');
+            showErrorTost(error, 'bottom-center', true);
         }
     }
 
@@ -53,7 +56,7 @@ export const StepperFormComp = () => {
                 <h3>Configuracion inicial</h3>
                 <div className="steps_roadmap">
                     <div className="steper_bar_indicator">
-                        <div className="steper_bar_completed"></div>
+                        <div className="steper_bar_completed" style={{width: `calc((100%/${stepsObjCompRender.size - 1}) * ${activeStep})`}}></div>
                     </div>
                     {
                         stepsObjOptRender.map((item, index) => (
@@ -75,7 +78,8 @@ export const StepperFormComp = () => {
                 </div>
                 <div className="steper_footer">
                     <button className='btn btn-primary' disabled={activeStep == 0 ? true : false} onClick={() => setActiveStep(activeStep - 1)}>Anterior</button>
-                    <button className='btn btn-primary' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'none' : 'flex'}} disabled={activeStep == stepsObjOptRender.length - 1 ? true : false} onClick={validateNextStep}>Siguiente</button>
+                    <button className='btn btn-primary' style={{display: activeStep == stepsObjOptRender.length - 1 || innerLoading ? 'none' : 'flex'}} disabled={activeStep == stepsObjOptRender.length - 1 ? true : false} onClick={validateNextStep}>Siguiente</button>
+                    <button className='btn btn-danger' style={{display: innerLoading ? 'flex' : 'none'}}><RiErrorWarningLine />  Validando</button>
                     <button className='btn btn-success' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'flex' : 'none'}}>Guardar y comenzar</button>
                 </div>
             </header>

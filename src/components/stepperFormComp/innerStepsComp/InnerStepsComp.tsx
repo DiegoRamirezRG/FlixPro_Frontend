@@ -4,9 +4,9 @@ import { InputTextComp } from '../../inputTextComp/InputTextComp'
 import './InnerStepsStyle.scss'
 import { FaDownload } from 'react-icons/fa'
 import { useConfigWizardContext } from '../../../contexts/configWizard/ConfigWizard'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { IoTrash } from 'react-icons/io5'
-import { MdRotate90DegreesCcw } from 'react-icons/md'
+import { TbRotate } from 'react-icons/tb'
 
 export const StartInitConfig = () => {
     return (
@@ -22,6 +22,7 @@ export const StartInitConfig = () => {
 
 export const CinemaGlobalConfig = () => {
     const { initConfigValues, handleInitConfigInputs } = useConfigWizardContext();
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const setImage = useCallback((acceptedFile: File[]) => {
         handleInitConfigInputs('logo', acceptedFile[0]);
@@ -34,7 +35,18 @@ export const CinemaGlobalConfig = () => {
         reader.readAsDataURL(acceptedFile[0]);
     }, []);
 
-    //TODO: Hacer que el boton de cambio te permita seleccionar de nuevo otra imagen y cambiar el icono por algun otro que indique mas
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files && event.target.files[0];
+        if (selectedFile) {
+            setImage([selectedFile]);
+        }
+    };
 
     return (
         <section className="inner_step_container">
@@ -47,8 +59,9 @@ export const CinemaGlobalConfig = () => {
                             ?   <div className='image_render'>
                                     <img src={ initConfigValues.logoRender! }  alt="CINEMA_IMG" />
                                     <div className="imageOptions">
+                                        <input type="file" accept='image/*' style={{display: 'none'}}onChange={ handleFileChange } ref={fileInputRef}/>
                                         <button className='btn btn-danger text-white' onClick={() => handleInitConfigInputs('logo', null)}><IoTrash size={25}/></button>
-                                        <button className='btn btn-warning text-white'><MdRotate90DegreesCcw size={25}/></button>
+                                        <button className='btn btn-warning text-white' onClick={ handleButtonClick }><TbRotate size={25} style={{transform: 'rotate(180deg)'}}/></button>
                                     </div>
                                 </div>
                             :   <DropzoneComp  label='Logo de tu Cinema (Opcional)' onDrop={setImage}/>

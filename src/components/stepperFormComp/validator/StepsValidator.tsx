@@ -1,3 +1,5 @@
+import axios from "axios";
+import { TMDBAutheticationResponse } from "./StepsValidatorInterface";
 
 export const ValidateStepCinema = async (cinemaName: string, cinemaLogo: File | null) => {
     return new Promise(async (resolve, reject) => {
@@ -18,8 +20,15 @@ export const ValidateTMDBApiCredentials = async (access_token: string, api_key: 
         }else if(!access_token.trim()){
             reject('Ingrese un Access Token valido');
         }else{
-            //TODO: Hacer que me Authorize con el api_key por medio de la llama al auth de tmdb
-            resolve(true);
+            axios.get<TMDBAutheticationResponse>('https://api.themoviedb.org/3/authentication',{ headers: { Authorization: `Bearer ${access_token}` } })
+                .then((response) => {
+                    if(response.data.success){
+                        resolve(true);
+                    }
+                }).catch((axiosError: any) => {
+                    console.error(axiosError)
+                    reject('Error al autenticar las llaves colocadas');
+                });
         }
     })
 }

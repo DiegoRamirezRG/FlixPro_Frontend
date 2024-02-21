@@ -1,3 +1,7 @@
+@import '../../../config/sass/theme.config';
+@import '../../../config/sass/responsive.config';
+
+
 .inner_step_container{
     width: 100%;
     height: 100%;
@@ -28,6 +32,24 @@
 
     img{
         height: 45%;
+    }
+
+    @include xs{
+        width: 95%;
+
+        span{
+            font-size: 27px;
+        }
+
+        p{
+            font-size: 17px;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        img{
+            width: 90%;
+        }
     }
 }
 
@@ -86,6 +108,22 @@
             }
         }
     }
+
+    @include xs{
+        width: 100%;
+
+        .cinema_form{
+            width: 100%;
+
+            .imageIcon{
+                .image_render{
+                    img{
+                        height: 80%;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .tmbdApiConfig{
@@ -122,6 +160,14 @@
             width: 100%;
         }
     }
+
+    @include xs{
+        width: 100%;
+
+        .tmdb_form{
+            width: 100%;
+        }
+    }
 }
 
 .finishedConfig{
@@ -148,5 +194,23 @@
 
     button{
         margin-top: 10px;
+    }
+
+    @include xs{
+        width: 100%;
+
+        span{
+            font-size: 27px;
+        }
+
+        p{
+            font-size: 17px;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        img{
+            width: 80%;
+        }
     }
 }

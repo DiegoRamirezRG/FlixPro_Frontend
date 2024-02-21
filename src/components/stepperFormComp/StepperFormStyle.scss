@@ -38,6 +38,11 @@
                 background-color: $secondary;
                 position: absolute;
                 z-index: 0;
+
+                .steper_bar_completed{
+                    height: 100%;
+                    background-color: $success;
+                }
             }
 
             .step_bubble{
@@ -166,4 +171,60 @@
         }
     }
     
+
+    @include xs {
+        width: 90%;
+
+        header{
+            .steps_roadmap{
+                .step_bubble{
+                    border-radius: 0%;
+
+                    .bubble_active{
+                        border-radius: 0%;
+
+                        &.active{
+                            border: none;
+
+                            .bubble_inner .bubble_floating_title{
+                                font-size: 15px;
+                            }
+                        }
+
+                        &.inactive{
+                            border: none;
+                        }
+
+                        &.finished{
+                            border: none;
+                        }
+
+                        .bubble_inner{
+                            width: 55px;
+                            height: 55px;
+
+                            .bubble_icon{
+                                font-size: 20px;
+                                color: black;
+                            }
+                        }
+                    }
+                }   
+            }
+
+            .step_active_render{
+                margin-top: 50px;
+                height: auto;
+                min-height: 40vh;
+            }
+
+            .steper_footer{
+                margin-top: 10px;
+            }
+        }
+    }
+
+    @include md{
+        width: 90%;
+    }
 }

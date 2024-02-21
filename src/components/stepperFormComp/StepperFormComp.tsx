@@ -5,9 +5,13 @@ import { RiListSettingsFill } from 'react-icons/ri';
 import { LuGoal } from 'react-icons/lu';
 import { stepItem } from '../../interfaces/stepperInterfaces/StepperInterfaces';
 import { CinemaGlobalConfig, InitConfigFinished, StartInitConfig, TMDBApiConfig } from './innerStepsComp/InnerStepsComp';
+import { ValidateStepCinema, ValidateTMDBApiCredentials } from './validator/StepsValidator';
+import { useConfigWizardContext } from '../../contexts/configWizard/ConfigWizard';
+import { showErrorTost } from '../toastComp/ToastComp';
 
 export const StepperFormComp = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
+    const { initConfigValues } = useConfigWizardContext();
 
     const stepsObjOptRender: stepItem[] = [
         { icon: <LuGoal className='bubble_icon'/>, title: 'Comencemos' },
@@ -22,6 +26,26 @@ export const StepperFormComp = () => {
         [2, <TMDBApiConfig/>],
         [3, <InitConfigFinished/>],
     ]);
+
+    const validateNextStep = async () => {
+        try {
+            switch (activeStep) {
+                case 0:
+                    setActiveStep(activeStep + 1);
+                    break;
+                case 1:
+                    await ValidateStepCinema(initConfigValues.name, initConfigValues.logo!);
+                    setActiveStep(activeStep + 1);
+                    break;
+                case 2:
+                    await ValidateTMDBApiCredentials(initConfigValues.tmdb_access_token, initConfigValues.tmdb_api_key);
+                    setActiveStep(activeStep + 1);
+                    break;
+            }
+        } catch (error: any) {
+            showErrorTost(error, 'bottom-center');
+        }
+    }
 
     return (
         <section className='steper_container'>
@@ -51,7 +75,8 @@ export const StepperFormComp = () => {
                 </div>
                 <div className="steper_footer">
                     <button className='btn btn-primary' disabled={activeStep == 0 ? true : false} onClick={() => setActiveStep(activeStep - 1)}>Anterior</button>
-                    <button className='btn btn-primary' disabled={activeStep == stepsObjOptRender.length - 1 ? true : false} onClick={() => setActiveStep(activeStep + 1)}>Siguiente</button>
+                    <button className='btn btn-primary' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'none' : 'flex'}} disabled={activeStep == stepsObjOptRender.length - 1 ? true : false} onClick={validateNextStep}>Siguiente</button>
+                    <button className='btn btn-success' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'flex' : 'none'}}>Guardar y comenzar</button>
                 </div>
             </header>
         </section>

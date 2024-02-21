@@ -9,4 +9,5 @@ export interface InputTextCompInterface {
     type: HTMLInputTypeAttribute;
     onChangeFunc: (name: string, value: string) => void;
     value: any;
+    putBorder?: boolean;
 }

@@ -31,6 +31,10 @@
             border: none;
             outline: none;
             background-color: transparent;
+
+            &.full-width{
+                width: 100%;
+            }
         }
 
         .iconBtn{

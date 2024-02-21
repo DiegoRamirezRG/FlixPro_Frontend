@@ -23,6 +23,10 @@
     border: none;
     font-weight: 500;
     transition: 0.15s all ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 
     &.btn-danger{
         @include btnBackgroundAndOVer($danger);
@@ -48,4 +52,17 @@
     &.btn-secondary{
         @include btnBackgroundAndOVer($secondary);
     }
+
+    &.btn-tmdb{
+        background: linear-gradient(to right, #8ECEA2, #03B4E3);
+        
+        &:hover{
+            cursor: pointer;
+            background: linear-gradient(to right, darken(#8ECEA2, 15%), darken(#03B4E3, 15%));
+        }
+    }
+}
+
+.text-white{
+    color: white;
 }

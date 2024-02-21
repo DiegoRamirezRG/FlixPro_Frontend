@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { ConfigWizardContextInterface } from "../../interfaces/configWizardInterfaces/ConfigWizardInterfaces";
+import { ConfigWizardContextInterface, initConfigValuesInterface } from "../../interfaces/configWizardInterfaces/ConfigWizardInterfaces";
 import { ContextProviderInterface } from "../../interfaces/contextsInterfaces/ProviderInterfaces";
 import { apiServiceProvider } from "../../config/api/ApiRestConfig";
 import { ApiResponse } from "../../interfaces/apiInterfaces/ApiResponseInterface";
@@ -9,6 +9,16 @@ const ConfigWizardContext = createContext<ConfigWizardContextInterface | undefin
 
 export const ConfigWizardContextProvider = ({ children } : ContextProviderInterface) => {
     
+    //Data States
+    const [initConfigValues, setInitConfigValues] = useState<initConfigValuesInterface>({
+        name: '',
+        logo: null,
+        logoRender: null,
+        tmdb_access_token: '',
+        tmdb_api_key: '',
+    });
+
+    //Init Config State
     const getInitConfigState = (): Promise<boolean> => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -28,9 +38,19 @@ export const ConfigWizardContextProvider = ({ children } : ContextProviderInterf
         });
     }
 
+    //Handle initConfigState
+    const handleInitConfigInputs = (name: string, value: any) => {
+        setInitConfigValues((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    }
+
     //Context Values
     const context: ConfigWizardContextInterface = {
         getInitConfigState,
+        initConfigValues,
+        handleInitConfigInputs,
     }
 
     //Return Provider

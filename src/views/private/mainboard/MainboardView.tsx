@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../contexts/auth/AuthContext'
-import { useConfigWizardContext } from '../../../contexts/configWizard/ConfigWizard';
+import { useConfigWizardContext } from '../../../contexts/configWizard/ConfigWizardContext';
 import './MainboardStyle.scss'
 import { StepperFormComp } from '../../../components/stepperFormComp/StepperFormComp';
 
 export const MainboardView = () => {
 
     const { loggedUser } = useAuthContext();
-    const { getInitConfigState } = useConfigWizardContext();
+    const { getInitConfigState, isConfigFinished } = useConfigWizardContext();
     const [isMainboardLoading, setIsMainboardLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -19,8 +19,7 @@ export const MainboardView = () => {
 
             awaitFunction();
         }
-    }, [])
-    
+    }, []);
 
     return (
         <div className='maxContainer'>
@@ -29,7 +28,7 @@ export const MainboardView = () => {
                 ?   'Loading'
                 :   <main className="mainbord_collider_box">
                         {
-                            false
+                            isConfigFinished
                             ?   <div>MainboardView</div>
                             :   <StepperFormComp/>
                         }

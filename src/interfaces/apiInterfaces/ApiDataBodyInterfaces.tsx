@@ -6,4 +6,6 @@ export type ApiDataBody =
     |   UserInterface
     |   ReAuthRefresh
     |   string
+    |   null
+    |   boolean
     |   any;

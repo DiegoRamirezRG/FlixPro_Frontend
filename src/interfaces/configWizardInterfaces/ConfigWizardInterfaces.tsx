@@ -1,7 +1,9 @@
 export interface ConfigWizardContextInterface{
     getInitConfigState: () => Promise<boolean>;
+    isConfigFinished: boolean | null;
     initConfigValues: initConfigValuesInterface;
     handleInitConfigInputs: (name: string, value: any) => void;
+    saveInitConfigs: () => Promise<boolean>;
 }
 
 export interface initConfigValuesInterface{

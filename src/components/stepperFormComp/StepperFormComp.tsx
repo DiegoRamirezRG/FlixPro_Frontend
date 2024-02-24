@@ -6,12 +6,12 @@ import { LuGoal } from 'react-icons/lu';
 import { stepItem } from '../../interfaces/stepperInterfaces/StepperInterfaces';
 import { CinemaGlobalConfig, InitConfigFinished, StartInitConfig, TMDBApiConfig } from './innerStepsComp/InnerStepsComp';
 import { ValidateStepCinema, ValidateTMDBApiCredentials } from './validator/StepsValidator';
-import { useConfigWizardContext } from '../../contexts/configWizard/ConfigWizard';
+import { useConfigWizardContext } from '../../contexts/configWizard/ConfigWizardContext';
 import { showErrorTost } from '../toastComp/ToastComp';
 
 export const StepperFormComp = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
-    const { initConfigValues } = useConfigWizardContext();
+    const { initConfigValues, saveInitConfigs } = useConfigWizardContext();
     const [innerLoading, setInnerLoading] = useState(false);
 
     const stepsObjOptRender: stepItem[] = [
@@ -50,6 +50,19 @@ export const StepperFormComp = () => {
         }
     }
 
+    const completeConfig = async () => {
+        try {
+            await saveInitConfigs()
+                .then((response) => {
+                    if(response){
+                        console.log('Datos guardados')
+                    }
+                })
+        } catch (error: any) {
+            showErrorTost(error, 'bottom-center', true);
+        }
+    }
+
     return (
         <section className='steper_container'>
             <header>
@@ -80,7 +93,7 @@ export const StepperFormComp = () => {
                     <button className='btn btn-primary' disabled={activeStep == 0 ? true : false} onClick={() => setActiveStep(activeStep - 1)}>Anterior</button>
                     <button className='btn btn-primary' style={{display: activeStep == stepsObjOptRender.length - 1 || innerLoading ? 'none' : 'flex'}} disabled={activeStep == stepsObjOptRender.length - 1 ? true : false} onClick={validateNextStep}>Siguiente</button>
                     <button className='btn btn-danger' style={{display: innerLoading ? 'flex' : 'none'}}><RiErrorWarningLine />  Validando</button>
-                    <button className='btn btn-success' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'flex' : 'none'}}>Guardar y comenzar</button>
+                    <button className='btn btn-success' style={{display: activeStep == stepsObjOptRender.length - 1 ? 'flex' : 'none'}} onClick={ completeConfig }>Guardar y comenzar</button>
                 </div>
             </header>
         </section>

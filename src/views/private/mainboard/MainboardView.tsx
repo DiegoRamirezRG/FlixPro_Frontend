@@ -3,6 +3,8 @@ import { useAuthContext } from '../../../contexts/auth/AuthContext'
 import { useConfigWizardContext } from '../../../contexts/configWizard/ConfigWizardContext';
 import './MainboardStyle.scss'
 import { StepperFormComp } from '../../../components/stepperFormComp/StepperFormComp';
+import { LoadingComp } from '../../../components/loadingComp/LoadingComp';
+import { LayoutWrapperComp } from '../../../components/layoutWrapperComp/LayoutWrapperComp';
 
 export const MainboardView = () => {
 
@@ -25,11 +27,17 @@ export const MainboardView = () => {
         <div className='maxContainer'>
             {
                 isMainboardLoading
-                ?   'Loading'
+                ?   <div className="loading_overlay">
+                        <div className="loadingContainer">
+                            <LoadingComp/>
+                        </div>
+                    </div>
                 :   <main className="mainbord_collider_box">
                         {
                             isConfigFinished
-                            ?   <div>MainboardView</div>
+                            ?   <LayoutWrapperComp>
+                                    <>Hola mundo</>
+                                </LayoutWrapperComp>
                             :   <StepperFormComp/>
                         }
                     </main>

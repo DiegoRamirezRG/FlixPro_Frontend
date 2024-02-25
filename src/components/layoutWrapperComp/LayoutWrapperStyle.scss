@@ -1,0 +1,35 @@
+@import '../../config/sass/responsive.config';
+@import '../../config/sass/theme.config';
+
+.layout_wrapper{
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    display: flex;
+
+    .renderPageContainer{
+        width: calc(100% - 300px);
+        max-width: 1300px;
+        height: auto;
+        box-sizing: border-box;
+        padding: 24px 36px;
+
+        @include xs{
+            width: 100%;
+            padding: 12px;
+        }
+
+        @include md{
+            width: 100%;
+            padding: 12px;
+        }
+    }
+
+    @include lg{
+        justify-content: flex-end;
+    }
+
+    @include xl{
+        justify-content: center;
+    }
+}

@@ -8,6 +8,7 @@ import { CinemaGlobalConfig, InitConfigFinished, StartInitConfig, TMDBApiConfig 
 import { ValidateStepCinema, ValidateTMDBApiCredentials } from './validator/StepsValidator';
 import { useConfigWizardContext } from '../../contexts/configWizard/ConfigWizardContext';
 import { showErrorTost } from '../toastComp/ToastComp';
+import Swal from 'sweetalert2'
 
 export const StepperFormComp = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
@@ -52,10 +53,32 @@ export const StepperFormComp = () => {
 
     const completeConfig = async () => {
         try {
+            
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Por favor, espera.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             await saveInitConfigs()
                 .then((response) => {
+                    Swal.close();
                     if(response){
-                        console.log('Datos guardados')
+                        Swal.fire({
+                            icon: "success",
+                            title: "Configuraciones guardadas",
+                            text: "Ahora podras continuar utilizando Flix Pro",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     }
                 })
         } catch (error: any) {

@@ -3,7 +3,7 @@ import { ProtectedRouteMiddleware } from '../middleware/protected/ProtectedRoute
 
 export const generalPrivateRoutes = [
     {
-        path: "/mainboard",
+        path: "/dashboard", //Mainboard
         element: <ProtectedRouteMiddleware>
             <MainboardView/>
         </ProtectedRouteMiddleware>,

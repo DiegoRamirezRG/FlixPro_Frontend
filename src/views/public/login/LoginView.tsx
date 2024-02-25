@@ -35,7 +35,7 @@ export const LoginView = () => {
 
     useEffect(() => {
         if(loggedUser != null){
-            navigate('/mainboard');
+            navigate('/dashboard');
         }
     }, [loggedUser]);
 
@@ -81,20 +81,20 @@ export const LoginView = () => {
                 </header>
                 <section>
                     <article className='form_header'>
-                        <p className='form_banner'>LETS GET TO WORK</p>
-                        <h1 className='form_title'>Log into your account<em>.</em></h1>
-                        <p className='form_switcher'>No Acount? No Biggie <a href="">Register here</a>.</p>
+                        <p className='form_banner'>MANOS A LA OBRA</p>
+                        <h1 className='form_title'>Inicia sesión en tu cuenta<em>.</em></h1>
+                        <p className='form_switcher'>Aun no tienes cuenta? <a href="">Regístrate aquí</a>.</p>
                     </article>
                     <article className='form_inputs'>
                         <form onSubmit={loginSubmit}>
-                            <InputTextComp id='email'       label='Email'       name='email'    key='input_email'       placeholder='Email'     type='email'    onChangeFunc={handleInputChange}    value={loginFormState.email}    iconBtn={ <IoAt /> }/>
-                            <InputTextComp id='password'    label='Password'    name='password' key='input_password'    placeholder='Password'  type='password' onChangeFunc={handleInputChange}    value={loginFormState.password}  />
-                            <p className='forgot_password'><a href="">Forgot password?</a></p>
-                            <button type='submit' className='form_btn'>Log in</button>
+                            <InputTextComp id='email'       label='Correo'       name='email'    key='input_email'       placeholder='Correo'     type='email'    onChangeFunc={handleInputChange}    value={loginFormState.email}    iconBtn={ <IoAt /> }/>
+                            <InputTextComp id='password'    label='Contraseña'    name='password' key='input_password'    placeholder='Contraseña'  type='password' onChangeFunc={handleInputChange}    value={loginFormState.password}  />
+                            <p className='forgot_password'><a href="">¿Olvidaste la contraseña?</a></p>
+                            <button type='submit' className='form_btn'>Iniciar sesión</button>
                         </form>
                     </article>
                     <article className='linked_sing_up'>
-                        <p>Or Sign Up Using</p>
+                        <p>O Regístrate usando</p>
                         <div className="linked_balls_media">
                             <div className="ball facebook_ball"><FaFacebookF /></div>
                             <div className="ball google_ball"><FaGoogle /></div>
